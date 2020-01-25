@@ -1,0 +1,7 @@
+.Person {
+    border-style: double;
+    border-bottom-width: 5px;
+    border-color: chartreuse;
+    margin-top: 10px;
+}
+  
