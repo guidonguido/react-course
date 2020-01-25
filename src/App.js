@@ -10,11 +10,11 @@ class App extends Component {
     ]
   }
 
-  switchNameHandler = () => {
+  switchNameHandler = (namePar) => {
 
     this.setState({
       persons: [
-      {name: 'Guidonguido', age: '22'},
+      {name: namePar, age: '22'},
       {name: 'PetreRic', age: '21'}
       ]
     });
@@ -27,9 +27,15 @@ class App extends Component {
         <h1> Ciao, sono Guido e sviluppo un'App React</h1>
         <p> Ricorda che questo non è testo HTLM ma JSX, 
             per questo si usa className per riferirsi alle classi CSS </p>
-        <button onClick={this.switchNameHandler}>Visualizza i Nickname</button>
-        <Person name = {this.state.persons[0].name} age = {this.state.persons[0].age} > Mi piacciono gli unicorni </Person>
-        <Person name = {this.state.persons[1].name} age = {this.state.persons[1].age} />
+        <button onClick={this.switchNameHandler.bind(this, 'Guidonguido')}>Visualizza i Nickname</button>
+        <Person 
+          name = {this.state.persons[0].name} 
+          age = {this.state.persons[0].age} 
+          click = {this.switchNameHandler.bind(this, 'Guidongui')} > Mi piacciono gli unicorni </Person>
+        <Person 
+          name = {this.state.persons[1].name} 
+          age = {this.state.persons[1].age} 
+          click = {() => this.switchNameHandler('Ho stato io')} />
         <Person/>
       </div>
     );
