@@ -3,6 +3,14 @@
   margin: 50px;
 }
 
+.red {
+	color: red;
+}
+
+.bold {
+	font-weight: bold;
+}
+
 button {
 	background-color:#44c767;
 	border-radius:28px;

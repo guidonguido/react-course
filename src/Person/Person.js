@@ -1,12 +1,20 @@
 import React from 'react';
 import Note from './Note';
+import Radium  from 'radium';   //rimuovi per styledComponent
 import './Person.css';
 import './InputName';
 import InputName from './InputName';
 
 const person = (props) => {
+
+    const style = {
+        '@media (min-width: 500px)': {
+            width: '450px'
+        }
+    }; //dopo la dimensione 500px dello schermo la larghezza massima del component persona rimale 450
+
     return (
-        <div className="Person">
+        <div className="Person" style={style}>
             <p onClick={props.click}> Sono il componente Persona, mi chiamo {props.name} e ho {props.age} anni. 
             Ecco un numero random: {Math.random()*10} </p>
             <Note content={props.children}/>
@@ -23,4 +31,4 @@ const person = (props) => {
         )
 };
 
-export default person;
+export default Radium(person);

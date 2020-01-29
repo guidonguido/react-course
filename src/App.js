@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import Radium, {StyleRoot} from 'radium';
 import Person from './Person/Person';
 
 class App extends Component {
@@ -73,6 +74,24 @@ class App extends Component {
   render() {            //si usa className per accedere alle classi CSS perchè class è già usato per la classe JS
     
     let persons = null;
+
+    let buttonStyle =  {
+      backgroundColor: '#44c767',
+      borderRadius: '28px',
+      border: '1px solid #18ab29',
+      display: 'inline-block',
+      cursor: 'pointer',
+      color: '#ffffff',
+      fontFamily: 'Arial',
+      fontSize: '14px',
+      padding: '16px 31px',
+      textDecoration: 'none',
+      textShadow: '0px 1px 0px #2f6627',
+      margin: '10px',
+      ':hover': 'backgroundColor:#5cbf2a',
+      ':active': 'position:relative; top:1px'
+    };
+
     if(this.state.showPersons)
     { persons = (
       <div>
@@ -102,38 +121,55 @@ class App extends Component {
               </div>
           )})}
       </div>);
+
+      buttonStyle.backgroundColor='red';
+    }
+ 
+    let paragraphClasses = ['red', 'bold'].join(" "); //Unisce in stringhe tipo "red bold"
+
+    const classes = [];
+
+    if(this.state.personsToIterate.length <= 2){
+      classes.push('red');
     }
 
+    if(this.state.personsToIterate.length >= 1){
+      classes.push('bold');
+    }
+
+
     return (
-      <div className="App">
-        <h1> Ciao, sono Guido e sviluppo un'App React</h1>
-        <p> Ricorda che questo non è testo HTLM ma JSX, 
-            per questo si usa className per riferirsi alle classi CSS </p>
-        <div>
-          <button onClick={this.togglePersonHandler}>Visualizza lista delle Persone</button>
-          <button onClick={this.switchNameHandler.bind(this, 'Guidonguido')}>
-            Visualizza i Nickname
-          </button>          
-        </div>
+      <StyleRoot>
+        <div className="App">
+          <h1> Ciao, sono Guido e sviluppo un'App React</h1>
+          <p className={classes.join(" ")}> Ricorda che questo non è testo HTLM ma JSX, 
+              per questo si usa className per riferirsi alle classi CSS </p>
+          <div>
+            <button style={buttonStyle} key="button1" onClick={this.togglePersonHandler}>Visualizza lista delle Persone</button>
+            <button style={buttonStyle} key="button2" onClick={this.switchNameHandler.bind(this, 'Guidonguido')}>
+              Visualizza i Nickname
+            </button>          
+          </div>
 
-        {persons}
+          {persons}
 
-        <div>
-          <h1> Assignment for base syntax section</h1>
-            <ol>
-              <li>Create TWO new components: UserInput and UserOutput</li>
-              <li>UserInput should hold an input element, UserOutput two paragraphs</li>
-              <li>Output multiple UserOutput components in the App component (any paragraph texts of your choice)</li>
-              <li>Pass a username (of your choice) to UserOutput via props and display it there</li>
-              <li>Add state to the App component (=> the username) and pass the username to the UserOutput component</li>
-              <li>Add a method to manipulate the state (=> an event-handler method)</li>
-              <li>Pass the event-handler method reference to the UserInput component and bind it to the input-change event</li>
-              <li>Ensure that the new input entered by the user overwrites the old username passed to UserOutput</li>
-              <li>Add two-way-binding to your input (in UserInput) to also display the starting username</li>
-              <li>Add styling of your choice to your components/ elements in the components - both with inline styles and stylesheets</li>
-          </ol>
+          <div>
+            <h1> Assignment for base syntax section</h1>
+              <ol>
+                <li>Create TWO new components: UserInput and UserOutput</li>
+                <li>UserInput should hold an input element, UserOutput two paragraphs</li>
+                <li>Output multiple UserOutput components in the App component (any paragraph texts of your choice)</li>
+                <li>Pass a username (of your choice) to UserOutput via props and display it there</li>
+                <li>Add state to the App component (=> the username) and pass the username to the UserOutput component</li>
+                <li>Add a method to manipulate the state (=> an event-handler method)</li>
+                <li>Pass the event-handler method reference to the UserInput component and bind it to the input-change event</li>
+                <li>Ensure that the new input entered by the user overwrites the old username passed to UserOutput</li>
+                <li>Add two-way-binding to your input (in UserInput) to also display the starting username</li>
+                <li>Add styling of your choice to your components/ elements in the components - both with inline styles and stylesheets</li>
+            </ol>
+          </div>
         </div>
-      </div>
+      </StyleRoot>
     );
 
     /*  In realtà è codice JSX, il compilatore lo compila come
@@ -142,4 +178,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Radium(App);
