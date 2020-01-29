@@ -7,7 +7,16 @@ class App extends Component {
     persons: [
       {name: 'Guido', age: '22'},
       {name: 'Petre', age: '21'}
-    ]
+    ],
+
+    personsToIterate: [
+      {key: '1', name: 'Guido', age: '22'},
+      {key: '2', name: 'Petre', age: '21'},
+      {key: '3', name: 'Giorgio', age: '22'},
+      {key: '4', name: 'Gabi', age: '21'}
+    ],
+
+    showPersons : false
   }
 
   switchNameHandler = (namePar) => {
@@ -22,7 +31,6 @@ class App extends Component {
   }
 
   nameChangedHandler = (event) => {
-
     this.setState({
       persons: [
       {name: event.target.value, age: '22'},
@@ -32,23 +40,83 @@ class App extends Component {
 
   }
 
+  nameInputHandler = (event, key) => {
+    const personIndex = this.state.personsToIterate.findIndex(p => { 
+      return p.key === key;
+    });
+
+    const person = {...this.state.personsToIterate[personIndex]}; 
+    //spread operator così non midifichiamo la persona originale ma ne creiamo un'altra
+    person.name = event.target.value;
+
+    const personsToIterate = [...this.state.personsToIterate];
+    personsToIterate[personIndex] = person;
+
+
+    this.setState({
+      personsToIterate:personsToIterate
+      }
+    )
+  }
+
+  togglePersonHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({showPersons : !doesShow});
+  }
+
+  deletePersonHandler = (index) => {
+    const personsToIterate = [...this.state.personsToIterate];
+    personsToIterate.splice(index, 1);
+    this.setState({personsToIterate : personsToIterate});
+  }
+
   render() {            //si usa className per accedere alle classi CSS perchè class è già usato per la classe JS
-    return (
-      <div className="App">
-        <h1> Ciao, sono Guido e sviluppo un'App React</h1>
-        <p> Ricorda che questo non è testo HTLM ma JSX, 
-            per questo si usa className per riferirsi alle classi CSS </p>
-        <button onClick={this.switchNameHandler.bind(this, 'Guidonguido')}>Visualizza i Nickname</button>
+    
+    let persons = null;
+    if(this.state.showPersons)
+    { persons = (
+      <div>
         <Person 
-          name = {this.state.persons[0].name} 
-          age = {this.state.persons[0].age} 
-          click = {this.switchNameHandler.bind(this, 'Guidongui')} 
-          changed = {this.nameChangedHandler}> Mi piacciono gli unicorni </Person>
+        name = {this.state.persons[0].name} 
+        age = {this.state.persons[0].age} 
+        click = {this.switchNameHandler.bind(this, 'Guidongui')} 
+        changed = {this.nameChangedHandler}
+
+        selected = { event => this.setState({persons: [{name: event.target.value, age: '22'},{name: 'PetreRic', age: '21'}]})}> 
+        Mi piacciono gli unicorni </Person>
+      
         <Person 
           name = {this.state.persons[1].name} 
           age = {this.state.persons[1].age} 
           click = {() => this.switchNameHandler('Ho stato io')} />
         <Person/>
+          {this.state.personsToIterate.map((person, index) => {
+            return (  
+              <div>
+                <Person name={person.name} age={person.age} 
+                key={person.key}
+                changed={(event)=>this.nameInputHandler(event, person.key)}/>
+                <button onClick={this.deletePersonHandler.bind(this,index)}>
+                  Elimina Persona
+                </button>
+              </div>
+          )})}
+      </div>);
+    }
+
+    return (
+      <div className="App">
+        <h1> Ciao, sono Guido e sviluppo un'App React</h1>
+        <p> Ricorda che questo non è testo HTLM ma JSX, 
+            per questo si usa className per riferirsi alle classi CSS </p>
+        <div>
+          <button onClick={this.togglePersonHandler}>Visualizza lista delle Persone</button>
+          <button onClick={this.switchNameHandler.bind(this, 'Guidonguido')}>
+            Visualizza i Nickname
+          </button>          
+        </div>
+
+        {persons}
 
         <div>
           <h1> Assignment for base syntax section</h1>

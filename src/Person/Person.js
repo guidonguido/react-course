@@ -11,6 +11,14 @@ const person = (props) => {
             Ecco un numero random: {Math.random()*10} </p>
             <Note content={props.children}/>
             <InputName changed={props.changed} value={props.name}/>
+
+            <select name="Nome" onChange={props.selected}>
+                <option></option>
+                <option value="pompelmo">Pompelmo</option>
+                <option value="limone">Limone</option>
+                <option selected value="cocco">Cocco</option>
+                <option value="mango">Mango</option>
+            </select>
         </div>
         )
 };
