@@ -1,7 +1,33 @@
 import React, { Component } from 'react';
 import './App.css';
-import Radium, {StyleRoot} from 'radium';
+//import Radium, {StyleRoot} from 'radium';
+import styled from 'styled-components';
 import Person from './Person/Person';
+
+const StyledButton = styled.button`
+    background-color: ${props => props.alt ? 'red' : '#44c767'} ;
+    border-radius:28px;
+    border:1px solid #18ab29;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:Arial;
+    font-size:14px;
+    padding:16px 31px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #2f6627;
+    margin: 10px;
+    
+    &:hover {
+    background-color: ${props => props.alt ? 'salmon' : '#5cbf2a'}; 
+    }
+
+    &:active {
+    position:relative;
+    top:1px;
+  }
+  
+`;
 
 class App extends Component {
   state = {
@@ -122,7 +148,7 @@ class App extends Component {
           )})}
       </div>);
 
-      buttonStyle.backgroundColor='red';
+      //buttonStyle.backgroundColor='red';
     }
  
     let paragraphClasses = ['red', 'bold'].join(" "); //Unisce in stringhe tipo "red bold"
@@ -139,16 +165,16 @@ class App extends Component {
 
 
     return (
-      <StyleRoot>
+ //     <StyleRoot>
         <div className="App">
           <h1> Ciao, sono Guido e sviluppo un'App React</h1>
           <p className={classes.join(" ")}> Ricorda che questo non è testo HTLM ma JSX, 
               per questo si usa className per riferirsi alle classi CSS </p>
           <div>
-            <button style={buttonStyle} key="button1" onClick={this.togglePersonHandler}>Visualizza lista delle Persone</button>
-            <button style={buttonStyle} key="button2" onClick={this.switchNameHandler.bind(this, 'Guidonguido')}>
+            <StyledButton key="button1" alt={this.state.showPersons} onClick={this.togglePersonHandler}>Visualizza lista delle Persone</StyledButton>
+            <StyledButton key="button2" alt={this.state.showPersons} onClick={this.switchNameHandler.bind(this, 'Guidonguido')}>
               Visualizza i Nickname
-            </button>          
+            </StyledButton>          
           </div>
 
           {persons}
@@ -169,7 +195,7 @@ class App extends Component {
             </ol>
           </div>
         </div>
-      </StyleRoot>
+//      </StyleRoot>
     );
 
     /*  In realtà è codice JSX, il compilatore lo compila come
@@ -178,4 +204,5 @@ class App extends Component {
   }
 }
 
-export default Radium(App);
+//export default Radium(App);
+export default App;
