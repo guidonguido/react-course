@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './App.css';
 //import Radium, {StyleRoot} from 'radium';
+import classes from "./App.module.css";
 import styled from 'styled-components';
 import Person from './Person/Person';
 
@@ -101,22 +101,7 @@ class App extends Component {
     
     let persons = null;
 
-    let buttonStyle =  {
-      backgroundColor: '#44c767',
-      borderRadius: '28px',
-      border: '1px solid #18ab29',
-      display: 'inline-block',
-      cursor: 'pointer',
-      color: '#ffffff',
-      fontFamily: 'Arial',
-      fontSize: '14px',
-      padding: '16px 31px',
-      textDecoration: 'none',
-      textShadow: '0px 1px 0px #2f6627',
-      margin: '10px',
-      ':hover': 'backgroundColor:#5cbf2a',
-      ':active': 'position:relative; top:1px'
-    };
+    let buttonClass = [classes.Button]
 
     if(this.state.showPersons)
     { persons = (
@@ -141,40 +126,40 @@ class App extends Component {
                 <Person name={person.name} age={person.age} 
                 key={person.key}
                 changed={(event)=>this.nameInputHandler(event, person.key)}/>
-                <button onClick={this.deletePersonHandler.bind(this,index)}>
+                <button className={classes.Button} onClick={this.deletePersonHandler.bind(this,index)}>
                   Elimina Persona
                 </button>
               </div>
           )})}
       </div>);
 
-      //buttonStyle.backgroundColor='red';
+      buttonClass.push(classes.Red);
     }
  
     let paragraphClasses = ['red', 'bold'].join(" "); //Unisce in stringhe tipo "red bold"
 
-    const classes = [];
+    const assignedClasses = [];
 
     if(this.state.personsToIterate.length <= 2){
-      classes.push('red');
+      assignedClasses.push(classes.red);
     }
 
     if(this.state.personsToIterate.length >= 1){
-      classes.push('bold');
+      assignedClasses.push(classes.bold);
     }
 
 
     return (
  //     <StyleRoot>
-        <div className="App">
+        <div className={classes.App}>
           <h1> Ciao, sono Guido e sviluppo un'App React</h1>
-          <p className={classes.join(" ")}> Ricorda che questo non è testo HTLM ma JSX, 
+          <p className={assignedClasses.join(" ")}> Ricorda che questo non è testo HTLM ma JSX, 
               per questo si usa className per riferirsi alle classi CSS </p>
           <div>
-            <StyledButton key="button1" alt={this.state.showPersons} onClick={this.togglePersonHandler}>Visualizza lista delle Persone</StyledButton>
-            <StyledButton key="button2" alt={this.state.showPersons} onClick={this.switchNameHandler.bind(this, 'Guidonguido')}>
+            <button key="button1" className={buttonClass.join(" ")} onClick={this.togglePersonHandler}>Visualizza lista delle Persone</button>
+            <button key="button2" className={buttonClass.join(" ")} onClick={this.switchNameHandler.bind(this, 'Guidonguido')}>
               Visualizza i Nickname
-            </StyledButton>          
+            </button>          
           </div>
 
           {persons}

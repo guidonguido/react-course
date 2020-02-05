@@ -2,7 +2,7 @@ import React from 'react';
 import Note from './Note';
 //import Radium  from 'radium';   //rimuovi per styledComponent
 import styled from 'styled-components';
-//import './Person.css';
+import classes from './Person.module.css';
 import './InputName';
 import InputName from './InputName';
 
@@ -30,7 +30,7 @@ const person = (props) => {
 
     return (
 //        <div className="Person" style={style}>
-        <StyledDiv>
+        <div className={classes.Person}>
             <p onClick={props.click}> Sono il componente Persona, mi chiamo {props.name} e ho {props.age} anni. 
             Ecco un numero random: {Math.random()*10} </p>
             <Note content={props.children}/>
@@ -43,7 +43,7 @@ const person = (props) => {
                 <option selected value="cocco">Cocco</option>
                 <option value="mango">Mango</option>
             </select>
-        </StyledDiv>
+        </div>
         )
 };
 

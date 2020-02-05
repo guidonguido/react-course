@@ -1,0 +1,19 @@
+.Person {
+    width: 50%;
+    border-style: double;
+    border-bottom-width: 5px;
+    border-color: chartreuse;
+    margin: auto;
+    margin-top: 10px;
+    text-align: center;
+
+    
+    
+}
+
+@media (min-width: 500px) {
+   .Person{
+      width: 450px; 
+   } 
+}
+  
