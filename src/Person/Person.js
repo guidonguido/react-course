@@ -6,20 +6,6 @@ import classes from './Person.module.css';
 import './InputName';
 import InputName from './InputName';
 
-const StyledDiv = styled.div`
-        width: 50%;
-        border-style: double;
-        border-bottom-width: 5px;
-        border-color: chartreuse;
-        margin: auto;
-        margin-top: 10px;
-        text-align: center;
-
-        @media (min-width: 500px) {
-            width: 450px
-        }
-    `;
-
 const person = (props) => {
 
     const style = {
