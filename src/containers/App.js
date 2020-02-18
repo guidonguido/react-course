@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 //import Radium, {StyleRoot} from 'radium';
 import classes from "./App.module.css";
 import styled from 'styled-components';
-import Person from './Person/Person';
+import Person from '../components/Persons/Person/Person';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
+import WithClass from '../hoc/WithClass';
 
 const StyledButton = styled.button`
     background-color: ${props => props.alt ? 'red' : '#44c767'} ;
@@ -30,6 +33,12 @@ const StyledButton = styled.button`
 `;
 
 class App extends Component {
+
+  constructor(props)
+  {
+    super(props);
+    console.log('[App.js] constructor');
+  }
   state = {
     persons: [
       {name: 'Guido', age: '22'},
@@ -43,7 +52,31 @@ class App extends Component {
       {key: '4', name: 'Gabi', age: '21'}
     ],
 
-    showPersons : false
+    showPersons : false,
+    showCockpit: true
+  }
+
+  static getDerivedStateFromProps(props,state)
+  {
+    console.log('[App.js] getDerivedStateFromProps', props);
+    return state;
+  }
+
+  componentDidMount()
+  {
+    console.log('[App.js] componentDidMount');
+  }
+
+  shouldComponentUpdate(nextProps, nextState)
+  {
+    console.log('[App.js] shouldComponentUpdate');
+    return true;
+  }
+
+
+  componentDidUpdate()
+  {
+    console.log('[App.js] componentDidUpdate')
   }
 
   switchNameHandler = (namePar) => {
@@ -76,7 +109,8 @@ class App extends Component {
     //spread operator così non midifichiamo la persona originale ma ne creiamo un'altra
     person.name = event.target.value;
 
-    const personsToIterate = [...this.state.personsToIterate];
+    const personsToIterate = [...this.state.personsToIterate]; 
+    //importante cambiare l'array di persone con lo spread operator, confrontato al vecchio risulterà diverso
     personsToIterate[personIndex] = person;
 
 
@@ -91,6 +125,11 @@ class App extends Component {
     this.setState({showPersons : !doesShow});
   }
 
+  toggleCockpitHandler = () => {
+    const doesShow = this.state.showCockpit;
+    this.setState({showCockpit : !doesShow})
+  }
+
   deletePersonHandler = (index) => {
     const personsToIterate = [...this.state.personsToIterate];
     personsToIterate.splice(index, 1);
@@ -98,10 +137,9 @@ class App extends Component {
   }
 
   render() {            //si usa className per accedere alle classi CSS perchè class è già usato per la classe JS
-    
-    let persons = null;
+    console.log('[App.js] render');
 
-    let buttonClass = [classes.Button]
+    let persons = null;
 
     if(this.state.showPersons)
     { persons = (
@@ -120,66 +158,41 @@ class App extends Component {
           age = {this.state.persons[1].age} 
           click = {() => this.switchNameHandler('Ho stato io')} />
         <Person/>
-          {this.state.personsToIterate.map((person, index) => {
-            return (  
-              <div>
-                <Person name={person.name} age={person.age} 
-                key={person.key}
-                changed={(event)=>this.nameInputHandler(event, person.key)}/>
-                <button className={classes.Button} onClick={this.deletePersonHandler.bind(this,index)}>
-                  Elimina Persona
-                </button>
-              </div>
-          )})}
-      </div>);
 
-      buttonClass.push(classes.Red);
+        <Persons 
+          personsToIterate={this.state.personsToIterate}
+          nameInputHandler={this.nameInputHandler}
+          deletePersonHandler={this.deletePersonHandler}
+          />
+      </div>);
+    }
+
+    let cockpit = null;
+
+    if(this.state.showCockpit)
+    {
+      cockpit = (<Cockpit 
+            title = {this.props.title}
+            personsToIterateLength={this.state.personsToIterate.length}
+            togglePersonHandler={this.togglePersonHandler}
+            switchNameHandler={this.switchNameHandler}
+            showPersons={this.state.showPersons}
+              />)
+
     }
  
     let paragraphClasses = ['red', 'bold'].join(" "); //Unisce in stringhe tipo "red bold"
 
-    const assignedClasses = [];
-
-    if(this.state.personsToIterate.length <= 2){
-      assignedClasses.push(classes.red);
-    }
-
-    if(this.state.personsToIterate.length >= 1){
-      assignedClasses.push(classes.bold);
-    }
-
 
     return (
  //     <StyleRoot>
-        <div className={classes.App}>
-          <h1> Ciao, sono Guido e sviluppo un'App React</h1>
-          <p className={assignedClasses.join(" ")}> Ricorda che questo non è testo HTLM ma JSX, 
-              per questo si usa className per riferirsi alle classi CSS </p>
-          <div>
-            <button key="button1" className={buttonClass.join(" ")} onClick={this.togglePersonHandler}>Visualizza lista delle Persone</button>
-            <button key="button2" className={buttonClass.join(" ")} onClick={this.switchNameHandler.bind(this, 'Guidonguido')}>
-              Visualizza i Nickname
-            </button>          
-          </div>
-
+        <WithClass classes={classes.App}>
+          
+        <button onClick={this.toggleCockpitHandler}> Visualizza Cockpit </button>
+          {cockpit}
           {persons}
-
-          <div>
-            <h1> Assignment for base syntax section</h1>
-              <ol>
-                <li>Create TWO new components: UserInput and UserOutput</li>
-                <li>UserInput should hold an input element, UserOutput two paragraphs</li>
-                <li>Output multiple UserOutput components in the App component (any paragraph texts of your choice)</li>
-                <li>Pass a username (of your choice) to UserOutput via props and display it there</li>
-                <li>Add state to the App component (=> the username) and pass the username to the UserOutput component</li>
-                <li>Add a method to manipulate the state (=> an event-handler method)</li>
-                <li>Pass the event-handler method reference to the UserInput component and bind it to the input-change event</li>
-                <li>Ensure that the new input entered by the user overwrites the old username passed to UserOutput</li>
-                <li>Add two-way-binding to your input (in UserInput) to also display the starting username</li>
-                <li>Add styling of your choice to your components/ elements in the components - both with inline styles and stylesheets</li>
-            </ol>
-          </div>
-        </div>
+        </WithClass>
+          
 //      </StyleRoot>
     );
 
