@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Person from './Person/Person';
 import classes from "./Persons.module.css";
+import InputChangedContext from '../../context/inputChangeContext';
 
 
 class Persons extends Component {
@@ -38,11 +39,12 @@ class Persons extends Component {
     return this.props.personsToIterate.map((person, index) => {
         return (  
           <div>
+            <InputChangedContext.Provider value={{changed:(event)=>this.props.nameInputHandler(event, person.key)}}>
             <Person 
             name={person.name} 
             age={person.age} 
-            key={person.key}
-            changed={(event)=>this.props.nameInputHandler(event, person.key)}/>
+            key={person.key}/>
+            </InputChangedContext.Provider>
 
             <button 
             className={classes.Button} 

@@ -27,7 +27,7 @@ class Person extends Component {
             <p onClick={this.props.click}> Sono il componente Persona, mi chiamo {this.props.name} e ho {this.props.age} anni. 
             Ecco un numero random: {Math.random()*10} </p>
             <Note content={this.props.children}/>
-            <InputName changed={this.props.changed} value={this.props.name}/>
+            <InputName value={this.props.name}/>
 
             <select name="Nome" onChange={this.props.selected}>
                 <option></option>

@@ -6,6 +6,7 @@ import Person from '../components/Persons/Person/Person';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
 import WithClass from '../hoc/WithClass';
+import InputChangedContext from '../context/inputChangeContext'
 
 const StyledButton = styled.button`
     background-color: ${props => props.alt ? 'red' : '#44c767'} ;
@@ -144,26 +145,27 @@ class App extends Component {
     if(this.state.showPersons)
     { persons = (
       <div>
-        <Person 
-        name = {this.state.persons[0].name} 
-        age = {this.state.persons[0].age} 
-        click = {this.switchNameHandler.bind(this, 'Guidongui')} 
-        changed = {this.nameChangedHandler}
-
-        selected = { event => this.setState({persons: [{name: event.target.value, age: '22'},{name: 'PetreRic', age: '21'}]})}> 
-        Mi piacciono gli unicorni </Person>
-      
-        <Person 
-          name = {this.state.persons[1].name} 
-          age = {this.state.persons[1].age} 
-          click = {() => this.switchNameHandler('Ho stato io')} />
-        <Person/>
-
-        <Persons 
-          personsToIterate={this.state.personsToIterate}
-          nameInputHandler={this.nameInputHandler}
-          deletePersonHandler={this.deletePersonHandler}
-          />
+        <InputChangedContext.Provider value={{changed: this.nameChangedHandler}}>
+          <Person 
+          name = {this.state.persons[0].name} 
+          age = {this.state.persons[0].age} 
+          click = {this.switchNameHandler.bind(this, 'Guidongui')}
+          selected = { event => this.setState({persons: [{name: event.target.value, age: '22'},{name: 'PetreRic', age: '21'}]})}> 
+          Mi piacciono gli unicorni </Person>
+        </InputChangedContext.Provider>
+        
+          <Person 
+            name = {this.state.persons[1].name} 
+            age = {this.state.persons[1].age} 
+            click = {() => this.switchNameHandler('Ho stato io')} />
+          <Person/>
+        
+          <Persons 
+            personsToIterate={this.state.personsToIterate}
+            nameInputHandler={this.nameInputHandler}
+            deletePersonHandler={this.deletePersonHandler}
+            />
+        
       </div>);
     }
 
