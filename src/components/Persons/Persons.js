@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Person from './Person/Person';
 import classes from "./Persons.module.css";
-import InputChangedContext from '../../context/inputChangeContext';
+import InputChangedContext from '../../context/inputChangedContext';
 
 
 class Persons extends Component {

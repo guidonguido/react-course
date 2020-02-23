@@ -6,7 +6,7 @@ import Person from '../components/Persons/Person/Person';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
 import WithClass from '../hoc/WithClass';
-import InputChangedContext from '../context/inputChangeContext'
+import InputChangedContext from '../context/inputChangedContext'
 
 const StyledButton = styled.button`
     background-color: ${props => props.alt ? 'red' : '#44c767'} ;
